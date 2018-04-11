@@ -15,18 +15,15 @@ import Photos
 import CoreImage
 import VideoToolbox
 
-let modelNames = ["No Style", "Mosaic", "Udnie", "Wave"]
-let modelList = ["none", "mosaic_style", "udnie_style", "wave_style"]
+let modelNames = ["No Style", "Mosaic", "Udnie", "Wave", "Water", "Eye"]
+let modelList = ["none", "mosaic_style", "udnie_style", "wave_style", "water_style", "eye_style"]
 var model = mosaic_style().model
 
-//TODO: On memory warning, unload these
-//var mosaic_style_ = mosaic_style().model
-//var udnie_style_  = udnie_style().model
-//var wave_style_ = wave_style().model
-//var models = [mosaic_style_, udnie_style_, wave_style_]
 var mosaic_style_: MLModel?
 var udnie_style_: MLModel?
 var wave_style_: MLModel?
+var water_style_: MLModel?
+var eye_style_: MLModel?
 var models: [MLModel] = []
 
 func setModel(targetModel: String) {
@@ -37,6 +34,10 @@ func setModel(targetModel: String) {
         model = udnie_style_!
     case "wave_style":
         model = wave_style_!
+    case "water_style":
+        model = water_style_!
+    case "eye_style":
+        model = eye_style_!
     default:
         break
     }
@@ -50,6 +51,10 @@ func modelInput(inputImage: CVPixelBuffer) -> MLFeatureProvider {
         return udnie_styleInput(inputImage: inputImage)
     case "wave_style":
         return wave_styleInput(inputImage: inputImage)
+    case "water_style":
+        return water_styleInput(inputImage: inputImage)
+    case "eye_style":
+        return eye_styleInput(inputImage: inputImage)
     // default to mosaic style
     default:
         return mosaic_styleInput(inputImage: inputImage)
@@ -60,13 +65,17 @@ func loadModels() {
     mosaic_style_ = mosaic_style().model
     udnie_style_  = udnie_style().model
     wave_style_ = wave_style().model
-    models = [mosaic_style_!, udnie_style_!, wave_style_!]
+    water_style_ = water_style().model
+    eye_style_ = eye_style().model
+    models = [mosaic_style_!, udnie_style_!, wave_style_!, water_style_!, eye_style_!]
 }
 
 func unloadModels() {
     mosaic_style_ = nil
     udnie_style_ = nil
     wave_style_ = nil
+    water_style_ = nil
+    eye_style_ = nil
     models = []
 }
 
