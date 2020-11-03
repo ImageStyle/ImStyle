@@ -88,7 +88,7 @@ func applyStyleTransfer(uiImage: UIImage, model: MLModel) -> UIImage {
 
 func toUIImage(pixelBuffer: CVPixelBuffer) -> UIImage {
     var cgImage: CGImage?
-    VTCreateCGImageFromCVPixelBuffer(pixelBuffer, nil, &cgImage)
+    VTCreateCGImageFromCVPixelBuffer(pixelBuffer, options: nil, imageOut: &cgImage)
     return UIImage(cgImage: cgImage!)
 }
 

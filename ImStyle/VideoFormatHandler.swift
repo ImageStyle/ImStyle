@@ -49,21 +49,21 @@ class VideoFormatHandler {
         self.numFramesLoaded = 0
         let asset = AVURLAsset(url: videoResource as URL)
         let generator = AVAssetImageGenerator.init(asset: asset)
-        generator.requestedTimeToleranceBefore = CMTimeMake(1, 15)
-        generator.requestedTimeToleranceAfter = CMTimeMake(1, 15)
+        generator.requestedTimeToleranceBefore = CMTimeMake(value: 1, timescale: 15)
+        generator.requestedTimeToleranceAfter = CMTimeMake(value: 1, timescale: 15)
         
         let times = Array(stride(from: 0.0, to: min(10.0, Double(CMTimeGetSeconds(asset.duration))), by: self.sampleRate))
         self.numFramesRequested = times.count
         generator.generateCGImagesAsynchronously(forTimes: times as [NSValue], completionHandler: self.frameGenCompletion(reqT:img:actualT:result:err:))
     }
     
-    func frameGenCompletion(reqT: CMTime, img: CGImage?, actualT: CMTime, result: AVAssetImageGeneratorResult, err: Error?) -> Void {
+    func frameGenCompletion(reqT: CMTime, img: CGImage?, actualT: CMTime, result: AVAssetImageGenerator.Result, err: Error?) -> Void {
         if (img == nil) {
             print("Could not get image: ", err!)
             self.numFramesRequested -= 1
         } else {
             // update the main view controller with the new frame
-            var frame = UIImage(cgImage: img!, scale: 1, orientation: UIImageOrientation.right)
+            var frame = UIImage(cgImage: img!, scale: 1, orientation: UIImage.Orientation.right)
             frame = frame.scaled(to: CGSize(width: self.imageSize, height: self.imageSize), scalingMode: .aspectFill)
             self.mainVC.videoFrames[0].append(frame)
             self.numFramesLoaded += 1
@@ -102,7 +102,7 @@ class VideoFormatHandler {
     
     func appendPixelBuffers(writer: VideoWriter) -> Bool {
         // kTimescale 600
-        let frameDuration = CMTimeMake(Int64(600 / settings.fps), 600)
+        let frameDuration = CMTimeMake(value: Int64(600 / settings.fps), timescale: 600)
         
         while !self.frames.isEmpty {
             
@@ -112,7 +112,7 @@ class VideoFormatHandler {
             }
             
             let image = self.frames.removeFirst()
-            let presentationTime = CMTimeMultiply(frameDuration, Int32(self.frameNum))
+            let presentationTime = CMTimeMultiply(frameDuration, multiplier: Int32(self.frameNum))
             let success = videoWriter.addImage(image: image, withPresentationTime: presentationTime)
             if success == false {
                 fatalError("addImage() failed")
@@ -250,7 +250,7 @@ class VideoWriter {
             fatalError("startWriting() failed")
         }
         
-        videoWriter.startSession(atSourceTime: kCMTimeZero)
+        videoWriter.startSession(atSourceTime: CMTime.zero)
         
         precondition(pixelBufferAdaptor.pixelBufferPool != nil, "nil pixelBufferPool")
     }
