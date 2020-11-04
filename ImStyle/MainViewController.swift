@@ -574,7 +574,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
             picker.dismiss(animated: true)
         }
 
-        if let image = convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage) as? UIImage {
+        if let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
             //make sure that the frames arrays are empty (this is almost always redundant, but can protect from an occasional thread collision issue.
             for index in 0..<self.videoFrames.count {
                 self.videoFrames[index] = []
