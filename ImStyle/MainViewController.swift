@@ -11,6 +11,7 @@ class MainViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     @IBOutlet weak var saveImageButton: UIButton!
     @IBOutlet weak var clearImageButton: UIButton!
     @IBOutlet weak var takePhotoButton: UIButton!
+    @IBOutlet weak var swipeImageView: UIImageView!
     @IBOutlet weak var stylePreviewImageView: UIImageView!
     @IBOutlet weak var stylePreviewImageBorder: UIView!
     @IBOutlet weak var toggleCameraButton: UIButton!
@@ -28,6 +29,7 @@ class MainViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     var currentStyle = 0
     var isStylizingVideo = false
     var recordingVideo = false
+    var loadedImage = false
     var displayingVideo = false
     var videoStyleWasInterrupted = false
     var videoFrames: [[UIImage]] = []
@@ -66,7 +68,7 @@ class MainViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         
         self.rearCaptureDevice = rearCamera
         self.frontCaptureDevice = frontCamera
-        
+                
         for _ in 0..<modelList.count {
             self.videoFrames.append([])
             self.numFramesRendered.append(0)
@@ -146,26 +148,33 @@ class MainViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         }
     }
     
+    
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection){
         connection.videoOrientation = .portrait
         if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
             let ciImage = CIImage(cvImageBuffer: imageBuffer)
-            let img = UIImage(ciImage: ciImage).resizeTo(CGSize(width: self.image_size, height: self.image_size))
-            if let uiImage = img {
-                var outImage : UIImage
-                if(!isRearCamera){
-                    outImage = UIImage(cgImage: uiImage.cgImage!, scale: 1.0, orientation: .upMirrored)
-                } else {
-                    outImage = uiImage
-                }
-                self.latestRawInputFrame = outImage
-                if (perform_transfer) {
-                    outImage = applyStyleTransfer(uiImage: outImage, model: model)
-                    self.videoFrames[self.currentStyle] = [outImage]
-                }
-                DispatchQueue.main.async {
-                    self.updateOutputImage(uiImage: outImage);
-                }
+            
+//            let m = Int(min(ciImage.extent.width, ciImage.extent.height))
+//            let xoff = 0//ciImage.extent.width/2 - m/2
+//            let yoff = 0// ciImage.extent.height/2 - m/2
+//
+//            //let img = UIImage(ciImage: ciImage)
+//            let cropped = ciImage.cropped(to: CGRect(x: xoff, y: yoff, width: m+xoff, height: m+yoff))
+            let cropped = ciImage
+            let img = UIImage(ciImage: cropped).scaled(to: CGSize(width: self.image_size, height: self.image_size), scalingMode: .aspectFit)
+            var outImage : UIImage
+            if(!isRearCamera){
+                outImage = UIImage(cgImage: img.cgImage!, scale: 1.0, orientation: .upMirrored)
+            } else {
+                outImage = img
+            }
+            self.latestRawInputFrame = outImage
+            if (perform_transfer) {
+                outImage = applyStyleTransfer(uiImage: outImage, model: model)
+                self.videoFrames[self.currentStyle] = [outImage]
+            }
+            DispatchQueue.main.async {
+                self.updateOutputImage(uiImage: outImage);
             }
         }
     }
@@ -190,11 +199,16 @@ class MainViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         if (self.displayingVideo) {
             self.videoFormatHandler.makeVideo(frames: self.videoFrames[self.currentStyle])
         } else {
-            UIGraphicsBeginImageContext(CGSize(width: self.imageView.frame.size.width, height: self.imageView.frame.size.height))
-            self.imageView.drawHierarchy(in: CGRect(x: 0.0, y: 0.0, width: self.imageView.frame.size.width, height: self.imageView.frame.size.height), afterScreenUpdates: true)
-            let image = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            self.saveToPhotoLibrary(uiImage: image!)
+            if (self.loadedImage) {
+                let toSave = self.imageView.image!
+                self.saveToPhotoLibrary(uiImage: toSave)
+            } else {
+                UIGraphicsBeginImageContext(CGSize(width: self.imageView.frame.size.width, height: self.imageView.frame.size.height))
+                self.imageView.drawHierarchy(in: CGRect(x: 0.0, y: 0.0, width: self.imageView.frame.size.width, height: self.imageView.frame.size.height), afterScreenUpdates: true)
+                let image = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                self.saveToPhotoLibrary(uiImage: image!)
+            }
         }
     }
     
@@ -344,6 +358,8 @@ class MainViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.clearImageButton.isHidden = true
         self.loadImageButton.isEnabled = true
         self.loadImageButton.isHidden = false
+        imageView.contentMode = .scaleAspectFill
+        self.loadedImage = false
         self.toggleCameraButton.isHidden = false
         self.toggleCameraButton.isEnabled = true
         self.saveImageButton.isEnabled = false
@@ -363,6 +379,7 @@ class MainViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     }
     
     @IBAction func swipeRight(_ sender: Any) {
+        swipeImageView.isHidden = true
         let oldStyle = self.currentStyle
         self.currentStyle = self.currentStyle - 1
         if(self.currentStyle < 0) {
@@ -372,6 +389,7 @@ class MainViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     }
     
     @IBAction func swipeLeft(_ sender: Any) {
+        swipeImageView.isHidden = true
         let oldStyle = self.currentStyle
         self.currentStyle = (self.currentStyle + 1) % self.num_styles
         updateStyle(oldStyle: oldStyle)
@@ -554,6 +572,8 @@ class MainViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.saveImageButton.isHidden = true
         self.shareButton.isEnabled = false
         self.shareButton.isHidden = true
+        self.loadedImage = false
+        imageView.contentMode = .scaleAspectFill
     }
     
     @objc func reload() {
@@ -606,6 +626,8 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         self.clearImageButton.isHidden = false
         self.loadImageButton.isEnabled = false
         self.loadImageButton.isHidden = true
+        imageView.contentMode = .scaleAspectFit
+        self.loadedImage = true
         
         self.takePhotoButton.isEnabled = false
         self.takePhotoButton.isHidden = true
@@ -621,6 +643,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         } else {
             frontCameraSession.stopRunning()
         }
+        self.stylizeAndUpdate()
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -641,7 +664,8 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         self.clearImageButton.isHidden = true
         self.loadImageButton.isEnabled = true
         self.loadImageButton.isHidden = false
-        
+        imageView.contentMode = .scaleAspectFill
+        self.loadedImage = false
     }
 }
 

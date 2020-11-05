@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0qU-kT-YCK">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0qU-kT-YCK">
                                 <rect key="frame" x="-16" y="0.0" width="407" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <gestureRecognizers/>
@@ -117,7 +117,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Ive-yS-abg">
-                                <rect key="frame" x="112" y="311" width="151" height="20"/>
+                                <rect key="frame" x="112" y="311" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </stackView>
                             <button opaque="NO" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ae7-cq-djn">
@@ -132,6 +132,13 @@
                                     <action selector="shareAction:" destination="BRE-eg-EID" eventType="touchUpInside" id="xBN-b8-8Ad"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-swipe-100" translatesAutoresizingMaskIntoConstraints="NO" id="3z3-8h-jhG" customClass="I">
+                                <rect key="frame" x="137.5" y="448" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="Mr7-lg-chb"/>
+                                    <constraint firstAttribute="width" constant="100" id="lew-hn-RWr"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ybc-kP-tAC"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -140,9 +147,11 @@
                             <constraint firstItem="uwq-z8-mjs" firstAttribute="top" secondItem="ae7-cq-djn" secondAttribute="bottom" constant="40" id="4ta-bz-bLB"/>
                             <constraint firstItem="0qU-kT-YCK" firstAttribute="top" secondItem="q1I-ma-Aqc" secondAttribute="top" id="5F5-N6-yZs"/>
                             <constraint firstItem="Ybc-kP-tAC" firstAttribute="trailing" secondItem="nvZ-Fd-sDp" secondAttribute="trailing" constant="20" id="Ad6-YT-QaR"/>
+                            <constraint firstItem="iKA-oc-ihR" firstAttribute="top" secondItem="3z3-8h-jhG" secondAttribute="bottom" constant="19.5" id="Dqa-Xq-v6Z"/>
                             <constraint firstAttribute="trailing" secondItem="0qU-kT-YCK" secondAttribute="trailing" constant="-16" id="G8i-2k-5Jn"/>
                             <constraint firstItem="Ybc-kP-tAC" firstAttribute="bottom" secondItem="nvZ-Fd-sDp" secondAttribute="bottom" constant="20" id="KIu-nW-2Ww"/>
                             <constraint firstItem="iKA-oc-ihR" firstAttribute="centerX" secondItem="q1I-ma-Aqc" secondAttribute="centerX" id="KWE-xg-8kL"/>
+                            <constraint firstItem="3z3-8h-jhG" firstAttribute="centerX" secondItem="iKA-oc-ihR" secondAttribute="centerX" id="O0F-3o-bzU"/>
                             <constraint firstItem="f23-Bz-one" firstAttribute="leading" secondItem="Ybc-kP-tAC" secondAttribute="leading" constant="20" id="PfX-75-nf4"/>
                             <constraint firstItem="0qU-kT-YCK" firstAttribute="bottom" secondItem="q1I-ma-Aqc" secondAttribute="bottom" id="UK6-Cp-wAI"/>
                             <constraint firstItem="Ybc-kP-tAC" firstAttribute="bottom" secondItem="dPA-3G-PLh" secondAttribute="bottom" constant="20" id="Vbg-Cc-wod"/>
@@ -167,6 +176,7 @@
                         <outlet property="shareButton" destination="ae7-cq-djn" id="FLL-jZ-UHo"/>
                         <outlet property="stylePreviewImageBorder" destination="057-UY-kxG" id="gcv-Qa-myq"/>
                         <outlet property="stylePreviewImageView" destination="exm-RB-ORo" id="E0u-Va-hTF"/>
+                        <outlet property="swipeImageView" destination="3z3-8h-jhG" id="bsX-on-ldQ"/>
                         <outlet property="takePhotoButton" destination="iKA-oc-ihR" id="ADS-Ly-8s6"/>
                         <outlet property="toggleCameraButton" destination="uwq-z8-mjs" id="FDf-H2-zwc"/>
                     </connections>
@@ -189,6 +199,7 @@
     <resources>
         <image name="camflip" width="800" height="800"/>
         <image name="clearimage" width="1000" height="1000"/>
+        <image name="icons8-swipe-100" width="100" height="100"/>
         <image name="loadimage" width="100" height="100"/>
         <image name="saveimage" width="800" height="800"/>
         <image name="takephoto" width="97" height="94.5"/>

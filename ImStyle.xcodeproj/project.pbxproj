@@ -11,7 +11,6 @@
 		2A59884D1F858CE4008138F2 /* UIImage+scaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A59884C1F858CE4008138F2 /* UIImage+scaling.swift */; };
 		2A9DB9211F8701070055ADD2 /* StyleTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9DB9201F8701070055ADD2 /* StyleTransfer.swift */; };
 		2AB20B461F870CEA001EA50B /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB20B451F870CEA001EA50B /* Util.swift */; };
-		2AB93AE61F8D5B5B00BD56C2 /* VRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB93AE51F8D5B5B00BD56C2 /* VRViewController.swift */; };
 		2AD54C441FA242C80072743F /* wave_style.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2AD54C431FA242C80072743F /* wave_style.mlmodel */; };
 		F817E00C1FBB7C8F00E2F7AB /* eye_style.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F817E00A1FBB7C8E00E2F7AB /* eye_style.mlmodel */; };
 		F817E00D1FBB7C8F00E2F7AB /* water_style.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F817E00B1FBB7C8F00E2F7AB /* water_style.mlmodel */; };
@@ -48,7 +47,6 @@
 		2A59884C1F858CE4008138F2 /* UIImage+scaling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+scaling.swift"; sourceTree = "<group>"; };
 		2A9DB9201F8701070055ADD2 /* StyleTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTransfer.swift; sourceTree = "<group>"; };
 		2AB20B451F870CEA001EA50B /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
-		2AB93AE51F8D5B5B00BD56C2 /* VRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VRViewController.swift; sourceTree = "<group>"; };
 		2AD54C431FA242C80072743F /* wave_style.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = wave_style.mlmodel; sourceTree = "<group>"; };
 		F817E00A1FBB7C8E00E2F7AB /* eye_style.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = eye_style.mlmodel; sourceTree = SOURCE_ROOT; };
 		F817E00B1FBB7C8F00E2F7AB /* water_style.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = water_style.mlmodel; sourceTree = SOURCE_ROOT; };
@@ -131,7 +129,6 @@
 				F8A401521F8435E8006EB964 /* Info.plist */,
 				2A59884C1F858CE4008138F2 /* UIImage+scaling.swift */,
 				2A9DB9201F8701070055ADD2 /* StyleTransfer.swift */,
-				2AB93AE51F8D5B5B00BD56C2 /* VRViewController.swift */,
 				F86F1AB11F9FF7C6009FA646 /* VideoFormatHandler.swift */,
 			);
 			path = ImStyle;
@@ -297,7 +294,6 @@
 				F817E00C1FBB7C8F00E2F7AB /* eye_style.mlmodel in Sources */,
 				2A59884D1F858CE4008138F2 /* UIImage+scaling.swift in Sources */,
 				2AD54C441FA242C80072743F /* wave_style.mlmodel in Sources */,
-				2AB93AE61F8D5B5B00BD56C2 /* VRViewController.swift in Sources */,
 				F817E00D1FBB7C8F00E2F7AB /* water_style.mlmodel in Sources */,
 				F8A401471F8435E8006EB964 /* AppDelegate.swift in Sources */,
 				2AB20B461F870CEA001EA50B /* Util.swift in Sources */,
@@ -470,11 +466,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = ZSLZM4XFNF;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = ImStyle/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = ImageStyle.ImStyle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -488,11 +486,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = ZSLZM4XFNF;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = ImStyle/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = ImageStyle.ImStyle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
